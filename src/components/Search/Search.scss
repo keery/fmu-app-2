@@ -1,0 +1,16 @@
+.result-search {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.search {
+    .result-search-container {
+        position: relative;height: 1px;
+        .result-search {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            right: 0;
+        }
+    }
+}

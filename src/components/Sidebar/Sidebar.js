@@ -11,7 +11,7 @@ const Sidebar = () => (
                 </div>
                 <ul className="nav navbar-nav">
                     <li><Link to="/recipes">Recettes</Link></li>
-                    <li><Link to="/ingredients">Ingédients</Link></li>
+                    <li><Link to="/ingredients">Ingrédients</Link></li>
                 </ul>
                 <form className="navbar-form navbar-right" action="">
                     <div className="form-group">

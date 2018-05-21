@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import { addIngredient } from '../../actions'
 
-class FormIngredient extends Component {
+class formIngredient extends Component {
 
     static defaultProps = {
         cost: 0,
@@ -12,9 +14,12 @@ class FormIngredient extends Component {
         this.state = {
             name: props.name,
             cost: props.cost,
-            allergenes: props.allergene || []
+            allergenes: props.allergene || [],
+            error: ''
         }
         this.checkCost = this.checkCost.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.updateState = this.updateState.bind(this)
     }
 
     checkCost(event) {
@@ -27,22 +32,63 @@ class FormIngredient extends Component {
         this.setState({allergenes: [...allergenes, newAllergene]})    
     }
 
-    render() {
-        const { name, cost, allergenes } = this.state;
+    handleSubmit(event) {
+        event.preventDefault();
 
+        if(this.verifForm()) {
+            const { name, cost, allergenes } = this.state
+            const res = this.props.addIngredient({name: name, cost: cost, allergenes: allergenes});
+            console.log(res)
+        }
+    }
+
+    verifForm() {
+        const { name, cost, allergenes } = this.state;
+        
+        if (typeof name === 'undefined') {
+            this.setState({error : 'Le champ nom est obligatoire'})
+            return false;
+        }
+        else if (cost <= 0) {
+            this.setState({error : 'Le champ prix est obligatoire'})
+            return false;
+        }
+        
+        return true
+    }
+
+    updateState(event, index) {
+        const el = event.target
+        const { allergenes } = this.state;
+
+        if(el.name === "allergene") {
+            allergenes[index] = el.value
+            this.setState({allergenes: allergenes})
+        }
+        else this.setState({[el.name] : el.value})
+    }
+
+    render() {
+        const { name, cost, allergenes, error } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="row">
+                    {
+                        error !== "" && 
+                            <div className="alert alert-danger">
+                                <strong>Erreur</strong> {error}
+                            </div>
+                    }
                     <div className="col-xs-12 col-sm-6">
                         <div className="form-group">
                             <label>Nom</label>
-                            <input type="text" name="name" className="form-control" value={name} />
+                            <input type="text" name="name" className="form-control"  onBlur={this.updateState} defaultValue={name} />
                         </div>
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         <div className="form-group">
                             <label>Coût (g)</label>
-                            <input type="text" name="cost" onChange={this.checkCost}  className="form-control" value={cost} />
+                            <input type="text" name="cost" onChange={this.checkCost} onBlur={this.updateState} className="form-control" value={cost} />
                         </div>
                     </div>
                     <div className="col-xs-12">
@@ -52,18 +98,32 @@ class FormIngredient extends Component {
                                 allergenes.length > 0 && (
                                     allergenes.map((el, index) =>
                                         <div key={index} className="form-group">
-                                            <input type="text" name="allergene"  className="form-control" defaultValue={el}/>
+                                            <input type="text" name="allergene" onBlur={(event) => this.updateState(event, index)}  className="form-control" defaultValue={el}/>
                                         </div>
                                     )
                                 )
                             }
                         </div>
                         <button onClick={() => this.addAllergene()} className="btn btn-primary" type="button">Ajouter un allergène</button>
-                    </div>                                        
+                    </div>
+                    <div className="text-right col-xs-12">
+                            <input type="submit" value="Enregistrer" className="btn btn-primary" />
+                    </div>                                     
                 </div>
             </form>
         )
     }
 }
+
+const mapDispatchToProps = {
+    addIngredient
+}
+const mapStateToProps = (state, props) => ({
+    allergenes: []
+  })
+const FormIngredient = connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(formIngredient)
 
 export default FormIngredient

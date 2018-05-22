@@ -63,7 +63,7 @@ class formIngredient extends Component {
 
         if(el.name === "allergene") {
             allergenes[index] = el.value
-            this.setState({allergenes: allergenes})
+            this.setState({allergenes: [...allergenes]})
         }
         else this.setState({[el.name] : el.value})
     }

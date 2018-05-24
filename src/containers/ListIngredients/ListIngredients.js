@@ -11,6 +11,7 @@ class listIngredients extends Component {
 
     render() {
         const { ingredients } = this.props
+        console.log(ingredients)
         return (
             <div>
                 {

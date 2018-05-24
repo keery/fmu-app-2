@@ -3,13 +3,16 @@
 //   cost : '',
 //   allergenes : []
 // }
+import { saveData, getData } from '../scripts/localStorage'
 const initialState = {
-  list : []
+  list : getData('ingredients')
 }
 export default function ingredientForm (state = initialState, action) {
   switch (action.type) {
     case 'ADD_INGREDIENT':
-      return {...state, list: [...state.list, action.newIngredient]}
+      const newList = [...state.list, action.newIngredient]
+      saveData("ingredients", newList)
+      return {...state, list: newList}
     default:
         return state
   }

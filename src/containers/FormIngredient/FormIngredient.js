@@ -15,7 +15,7 @@ class formIngredient extends Component {
             name: props.name,
             cost: props.cost,
             allergenes: props.allergene || [],
-            error: ''
+            message: ''
         }
         this.checkCost = this.checkCost.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -47,8 +47,7 @@ class formIngredient extends Component {
         const initialState = {
             name: '',
             cost: 0,
-            allergenes: [],
-            error: ''
+            allergenes: []
         }
         this.setState(initialState)
     }
@@ -57,14 +56,15 @@ class formIngredient extends Component {
         const { name, cost } = this.state;
         
         if (typeof name === 'undefined') {
-            this.setState({error : 'Le champ nom est obligatoire'})
+            this.setState({message : {type:"danger", content:'Le champ nom est obligatoire'}})
             return false;
         }
         else if (cost <= 0) {
-            this.setState({error : 'Le champ prix est obligatoire'})
+            this.setState({message : {type:"danger", content:'Le champ prix est obligatoire'}})
             return false;
         }
         
+        this.setState({message : {type:"success", content:'Recette bien enregistrée'}})
         return true
     }
 
@@ -80,14 +80,14 @@ class formIngredient extends Component {
     }
 
     render() {
-        const { name, cost, allergenes, error } = this.state;
+        const { name, cost, allergenes, message } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="row">
                     {
-                        error !== "" && 
-                            <div className="alert alert-danger">
-                                <strong>Erreur</strong> {error}
+                        message !== "" && 
+                            <div className={"alert alert-"+message.type}>
+                                {message.content}
                             </div>
                     }
                     <div className="col-xs-12 col-sm-6">

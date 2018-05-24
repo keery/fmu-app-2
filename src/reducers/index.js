@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
-import ingredientReducer from './ingredient';
+import ingredientForm from './ingredient';
+import recipeForm from './recipe';
 
 const reducers = combineReducers({
-    ingredient: ingredientReducer
+    ingredient: ingredientForm,
+    recipe: recipeForm,
 });
 
 export default reducers;

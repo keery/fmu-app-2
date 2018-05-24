@@ -9,7 +9,8 @@ class Search extends Component {
             data: this.formatData(props.data),
             action: props.action,
             result: [],
-            open: false
+            open: false,
+            value: ''
         }
         this.handleSearch = this.handleSearch.bind(this)
     }
@@ -38,15 +39,20 @@ class Search extends Component {
     handleSearch(event) {
         const { data } = this.state
         const value = event.target.value
-        this.setState({result : data.filter((elem) => elem.name.includes(value) || elem.type_autocomplete === "group_name")})
+        this.setState({result : data.filter((elem) => elem.dataAutocompleteActif !== 0 && (elem.name.includes(value) || elem.type_autocomplete === "group_name")), value: value })
+    }
+
+    execAction(action, el) {
+        action(el)
+        this.setState({value: '', open: false, result: []})
     }
 
     render() {
-        const { data, action, result, open } = this.state
+        const { action, result, open, value } = this.state
         const hasResult = Array.isArray(result) && result.length > 0;
         return (
             <div className="search">
-                <input type="text" name="search" onChange={this.handleSearch}  className="form-control" autoComplete="off" onFocus={() => this.handleOpen(true)} onBlur={() => this.handleOpen(false)}/>
+                <input type="text" name="search" onChange={this.handleSearch} value={value} className="form-control" autoComplete="off" onFocus={() => this.handleOpen(true)} onBlur={() => this.handleOpen(false)}/>
                 <div className="result-search-container">
                     <div className={"result-search dropdown"+(hasResult && open ? " open" : "")}>
                         <ul className="dropdown-menu">
@@ -54,9 +60,9 @@ class Search extends Component {
                             hasResult &&
                             result.map((el) => {
                                 return (
-                                    el.type_autocomplete == "group_name" 
-                                    ? <li className="group-list" key={el.name}><a>{el.name}</a></li>
-                                    : <li onClick={() => action()} key={el.name}><a>{el.name}</a></li>
+                                    el.type_autocomplete === "group_name" 
+                                    ? <li className="group-list" key={el.name+"_"+el.type_autocomplete}><a>{el.name}</a></li>
+                                    : <li onMouseDown={() => this.execAction(action, el)} key={el.id}><a>{el.name}</a></li>
                                 )
                             })
                         }

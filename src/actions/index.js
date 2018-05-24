@@ -13,3 +13,15 @@ export const addIngredient = (ingredient) => {
   
     return {type: 'ADD_INGREDIENT', newIngredient}
 }
+
+export const addRecipe = (recipe) => {
+
+    const newRecipe = {
+        id: generateId(recipe.name),
+        name: recipe.name,
+        ingredients: recipe.ingredients,
+        recipes: recipe.recipes
+    }
+  
+    return {type: 'ADD_RECIPE', newRecipe}
+}

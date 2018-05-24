@@ -131,7 +131,7 @@ const mapDispatchToProps = {
 }
 const mapStateToProps = (state, props) => ({
     allergenes: []
-  })
+})
 const FormIngredient = connect(
     mapStateToProps,
     mapDispatchToProps

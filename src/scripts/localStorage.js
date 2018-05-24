@@ -1,8 +1,6 @@
 export function saveData (key, data) {
     const entries = JSON.parse(localStorage.getItem(key) || '[]')
-    for(let el of data) {
-        entries.push(el)
-    }
+    entries.push(data)
     localStorage.setItem(key, JSON.stringify(entries))
 }
 

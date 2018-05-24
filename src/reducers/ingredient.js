@@ -10,9 +10,8 @@ const initialState = {
 export default function ingredientForm (state = initialState, action) {
   switch (action.type) {
     case 'ADD_INGREDIENT':
-      const newList = [...state.list, action.newIngredient]
-      saveData("ingredients", newList)
-      return {...state, list: newList}
+      saveData("ingredients", action.newIngredient)
+      return {...state, list: [...state.list, action.newIngredient]}
     default:
         return state
   }

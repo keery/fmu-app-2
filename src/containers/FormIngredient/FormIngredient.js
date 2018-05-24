@@ -20,6 +20,7 @@ class formIngredient extends Component {
         this.checkCost = this.checkCost.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.updateState = this.updateState.bind(this)
+        this.reset = this.reset.bind(this)
     }
 
     checkCost(event) {
@@ -37,13 +38,23 @@ class formIngredient extends Component {
 
         if(this.verifForm()) {
             const { name, cost, allergenes } = this.state
-            const res = this.props.addIngredient({name: name, cost: cost, allergenes: allergenes});
-            console.log(res)
+            this.props.addIngredient({name: name, cost: cost, allergenes: allergenes});
+            this.reset()
         }
     }
 
+    reset() {
+        const initialState = {
+            name: '',
+            cost: 0,
+            allergenes: [],
+            error: ''
+        }
+        this.setState(initialState)
+    }
+
     verifForm() {
-        const { name, cost, allergenes } = this.state;
+        const { name, cost } = this.state;
         
         if (typeof name === 'undefined') {
             this.setState({error : 'Le champ nom est obligatoire'})

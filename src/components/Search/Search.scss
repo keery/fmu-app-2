@@ -1,9 +1,6 @@
-.result-search {
-    max-height: 300px;
-    overflow: auto;
-}
-
 .search {
+    li:not(.group-list) { cursor: pointer; }
+    .group-list { cursor: no-drop; }
     .result-search-container {
         position: relative;height: 1px;
         .result-search {

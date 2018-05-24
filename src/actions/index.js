@@ -22,6 +22,5 @@ export const addRecipe = (recipe) => {
         ingredients: recipe.ingredients,
         recipes: recipe.recipes
     }
-  
     return {type: 'ADD_RECIPE', newRecipe}
 }

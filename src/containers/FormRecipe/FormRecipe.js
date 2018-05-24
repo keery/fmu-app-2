@@ -28,12 +28,6 @@ class formRecipe extends Component {
         this.actionAutocomplete = this.actionAutocomplete.bind(this)
     }
 
-    addAllergene() {
-        const { ingredients } = this.state;
-        const newIngredient = [''];
-        this.setState({ingredients: [...ingredients, newIngredient]})    
-    }
-
     checkQuantity(event, id, type) {
         const { ingredients, recipes } = this.state
 
@@ -53,8 +47,8 @@ class formRecipe extends Component {
         event.preventDefault();
 
         if(this.verifForm()) {
-            // const { name, cost, allergenes } = this.state
-            // this.props.addRecipe({name: name});
+            const { name, ingredients, recipes } = this.state
+            this.props.addRecipe({name: name, ingredients: ingredients, recipes: recipes});
             this.reset()
         }
     }

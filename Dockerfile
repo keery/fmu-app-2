@@ -1,11 +1,11 @@
 FROM node:8
 
-# Create app directory
-WORKDIR usr/app
+WORKDIR /usr/src/app
 
-# install node modules
-COPY package.json /usr/app/package.json
-RUN  cd /usr/app && npm install && npm start
+COPY package*.json ./
 
-# # install application
-# COPY . /usr/app
+RUN npm install
+COPY . .
+
+EXPOSE 8080
+CMD [ "npm", "start" ]

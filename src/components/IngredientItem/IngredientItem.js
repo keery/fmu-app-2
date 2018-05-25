@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
 
 const IngredientItem = ({ id, name, cost, allergenes }) => (
   <div className="panel panel-default">
@@ -21,5 +22,12 @@ const IngredientItem = ({ id, name, cost, allergenes }) => (
     </div>
   </div>
 )
+
+IngredientItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  cost: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  allergenes: PropTypes.arrayOf(PropTypes.string)
+}
 
 export default IngredientItem

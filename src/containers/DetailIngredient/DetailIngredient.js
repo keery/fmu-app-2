@@ -10,7 +10,7 @@ class detailIngredient extends Component {
             id: props.ingredient.id,
             name: props.ingredient.name,
             cost: props.ingredient.cost,
-            allergenes: props.ingredient.allergene || [],
+            allergenes: props.ingredient.allergenes || [],
         }
     }
 
@@ -49,6 +49,6 @@ const mapStateToProps = (state, props) => ({
 
 const DetailIngredient = connect(
     mapStateToProps
-  )(detailIngredient)
+)(detailIngredient)
 
 export default DetailIngredient

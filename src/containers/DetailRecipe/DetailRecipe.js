@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { getRecipeById } from '../../utils/selectors'
+import { getRecipeAllergenes } from '../../utils/explorer'
 import { Link } from 'react-router-dom'
-import RecipeItem from '../../components/RecipeItem/RecipeItem'
-import IngredientItem from '../../components/IngredientItem/IngredientItem'
 
 class detailRecipe extends Component {
     constructor(props) {
@@ -35,47 +34,10 @@ class detailRecipe extends Component {
         return total
     }
 
-    getAllergenes() {
-        const t_allergenes = this.recursAllergene(this.state)
-
-        return t_allergenes.filter(function(item, pos) {
-            return t_allergenes.indexOf(item) === pos;
-        })
-    }
-
-    recursAllergene(recipe) {
-        const { ingredients, recipes } = recipe
-        let t_allergenes = [];
-
-        if(ingredients.length > 0) {
-            for(let ingredient of ingredients) {
-                if(ingredient.allergenes.length > 0) {
-                    for(let allergene in ingredient.allergenes) {
-                        t_allergenes.push(ingredient.allergenes[allergene])
-                    }
-                }
-            }
-        }
-
-
-        if(recipes.length > 0) {
-            for(let recipe of recipes) {
-                const res = this.recursAllergene(recipe)
-                if(res.length > 0) {
-                    for(let el in res) {
-                        t_allergenes.push(res[el])
-                    }
-                }
-            }
-        }
-
-        return t_allergenes
-    }
-
     render() {
         const { id, name, ingredients, recipes } = this.state;
         const price = this.getRecipePrice(this.state)
-        const allergenes = this.getAllergenes()
+        const allergenes = getRecipeAllergenes(this.state)
 
         return (
             <div>

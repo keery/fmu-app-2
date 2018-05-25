@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import RecipeItem from '../../components/RecipeItem/RecipeItem'
 import { getRecipeAllergenes } from '../../utils/explorer'
+import { getRecipePrice } from '../../utils/selectors'
 
 
 class listRecipes extends Component {
@@ -14,10 +15,13 @@ class listRecipes extends Component {
             allergenes: this.getAllergenes(props.ingredients),
             ingredients: this.getIngredients(props.ingredients),
             recipes: props.recipes,
+            min_price: 0,
+            max_price: this.getMaxPriceRecipe(props.recipes),
             value: ''
         }
 
         this.handleSearch = this.handleSearch.bind(this)        
+        this.handlePrice = this.handlePrice.bind(this)        
     }
 
     getAllergenes(ingredients) {
@@ -31,6 +35,17 @@ class listRecipes extends Component {
         }
 
         return t_allergenes
+    }
+
+    getMaxPriceRecipe(recipes) {
+        let maxPrice = 0
+
+        for(let recipe of recipes) {
+            const price = getRecipePrice(recipe)
+            if(price > maxPrice) maxPrice = price
+        }
+
+        return maxPrice
     }
 
     getIngredients(ingredients) {
@@ -63,30 +78,25 @@ class listRecipes extends Component {
 
         this.setState({ingredients : newIngredients})
     }
-    
+  
     handleSearch(event) {
         const value = event.target.value
         this.setState({value: value})
     }
 
-    render() {
-        const { recipes, ingredients, allergenes, value } = this.state
+    handlePrice(event, type) {
+        this.setState({[type]: event.target.value})
+    }
 
-        // console.log(ingredients)
-        // console.log(recipes[5])
-
-        // console.log(getRecipeAllergenes(recipes[5]))
-
-        // for(let recipe of recipes) {
-
-        // }
+    filterResult() {
+        const { recipes, ingredients, allergenes, value, min_price, max_price } = this.state
 
         const activeAllergenes = allergenes.filter(el => el.actif === 1)
         const activeIngredients = ingredients.map(el => {
             if(el.actif === 1) return el.ingredient.id
+            return false
         })
 
-        // console.log(activeAllergenes)
         const result = recipes.filter((el) => {
             if(!el.name.includes(value)) return false
 
@@ -100,11 +110,6 @@ class listRecipes extends Component {
             }
 
             if(activeIngredients.length > 0) {
-                // const currentIngredient = getRecipeIngredient(el)
-                // const idsIngredients = activeIngredients.map((element) => {
-                //     return element.ingredient.id
-                // })
-                // console.log(idsIngredients)
                 const currentIngredients = el.ingredients.map((element) => {
                     return element.id
                 })
@@ -115,11 +120,18 @@ class listRecipes extends Component {
 
                 if(!validI) return false;
             }
-            // if(currentAllergenes.length === 0)
-            // console.log(
-            // console.log(el)
+
+            if(getRecipePrice(el) < min_price) return false
+            if(getRecipePrice(el) > max_price) return false
             return el
         })
+
+        return result
+    }
+
+    render() {
+        const { ingredients, allergenes, value, min_price, max_price } = this.state
+        const result = this.filterResult()
 
         return (
             <div>
@@ -134,14 +146,14 @@ class listRecipes extends Component {
                             </div>
                             <div className="col-xs-6">
                                 <div className="form-group">
-                                    <label>Prix minimum</label>
-                                    <input type="text" name="min_price" className="form-control" />
+                                    <label>Prix minimum en €</label>
+                                    <input type="number" name="min_price" min="0" max={max_price-1} className="form-control" value={min_price} onChange={ (event) => this.handlePrice(event, 'min_price') } />
                                 </div>
                             </div>
                             <div className="col-xs-6">
                                 <div className="form-group">
-                                    <label>Prix maximum</label>
-                                    <input type="text" name="max_price" className="form-control" />
+                                    <label>Prix maximum en €</label>
+                                    <input type="number" name="max_price" min="0" max={max_price} className="form-control" value={max_price} onChange={ (event) => this.handlePrice(event, 'max_price') } />
                                 </div>
                             </div>
                             <div className="col-xs-6">
@@ -185,7 +197,7 @@ class listRecipes extends Component {
                 {
                     result && result.length > 0 
                     ? result.map(({id, name, ingredients, recipes}) => (
-                        <RecipeItem key={id} id={id} name={name} ingredients={ingredients} recipes={recipes} />
+                        <RecipeItem key={id} id={id} name={name} ingredients={ingredients} recipes={recipes} price={getRecipePrice({ingredients:ingredients, recipes: recipes})} />
                     ))
                     : <div className="alert alert-warning"><strong>Warning</strong> Il n'y a actuellement aucune recette, pensez à en ajouter <Link to="/add/recipe">ici</Link></div>
                 }

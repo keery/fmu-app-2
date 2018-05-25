@@ -1,10 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-const RecipeItem = ({ id, name, ingredients, recipes }) => (
+const RecipeItem = ({ id, name, ingredients, recipes, price }) => (
   <div className="panel panel-default">
     <div className="panel-heading">{name}</div>
     <div className="panel-body">
+      <div>
+        {
+          price && price !== 0 && (
+            <span>Prix: {price} €</span>
+          )
+        }
+      </div>
       <div>
         {
           ingredients && ingredients.map((ingredient, index) => (
@@ -25,5 +33,26 @@ const RecipeItem = ({ id, name, ingredients, recipes }) => (
     </div>
   </div>
 )
+
+RecipeItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  recipes: PropTypes.arrayOf(
+      PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          ingredients: PropTypes.array,
+          recipes: PropTypes.array,
+      })
+  ),
+  ingredients: PropTypes.arrayOf(
+      PropTypes.shape({        
+          id: PropTypes.string.isRequired,
+          cost: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          allergenes: PropTypes.arrayOf(PropTypes.string)
+      })
+  )
+}
 
 export default RecipeItem

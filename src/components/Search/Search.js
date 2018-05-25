@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Search.scss'; 
+import PropTypes from 'prop-types'
 
 class Search extends Component {
     constructor(props){
@@ -72,6 +73,11 @@ class Search extends Component {
             </div>
         )
     }
+}
+
+Search.propTypes = {
+    data: PropTypes.object.isRequired,
+    action: PropTypes.func.isRequired,
 }
 
 export default Search

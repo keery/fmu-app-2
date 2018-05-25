@@ -24,7 +24,7 @@ class formIngredient extends Component {
     }
 
     checkCost(event) {
-        this.setState({cost: event.target.value.replace(/\D/g, "")});
+        this.setState({cost: parseFloat(event.target.value.replace(/\D/g, ""))});
     }
 
     addAllergene() {

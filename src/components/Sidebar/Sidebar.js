@@ -13,12 +13,6 @@ const Sidebar = () => (
                     <li><Link to="/recipes">Recettes</Link></li>
                     <li><Link to="/ingredients">Ingrédients</Link></li>
                 </ul>
-                <form className="navbar-form navbar-right" action="">
-                    <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Search" />
-                    </div>
-                    <button type="submit" className="btn btn-default">Submit</button>
-                </form>
             </div>
         </nav>
         <div>

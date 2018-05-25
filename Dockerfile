@@ -1,11 +1,11 @@
 FROM node:8
-
+RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-RUN npm install
-COPY . .
+COPY package.json /usr/src/app/package.json
+RUN npm install --silent
+RUN npm install react-scripts@1.1.1 -g --silent
 
-EXPOSE 8080
-CMD [ "npm", "start" ]
+CMD ["npm", "start"]

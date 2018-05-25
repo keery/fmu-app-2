@@ -1,11 +1,11 @@
 FROM node:8
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
 
-# Create app directory
-WORKDIR usr/app
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-# install node modules
-COPY package.json /usr/app/package.json
-RUN  cd /usr/app && npm install && npm start
+COPY package.json /usr/src/app/package.json
+RUN npm install --silent
+RUN npm install react-scripts@1.1.1 -g --silent
 
-# # install application
-# COPY . /usr/app
+CMD ["npm", "start"]

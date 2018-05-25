@@ -1,13 +1,16 @@
-version: "2"
+version: '3.5'
+
 services:
-  app:
-    build: .
-    container_name: fmu
-  node:
-    image: "node:8"
-    environment:
-      - NODE_ENV=production
+
+  fmu-app:
+    container_name: fmu-app
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - ./:/usr/src/app
-    expose:
-      - "8080"    
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development

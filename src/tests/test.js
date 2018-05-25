@@ -22,7 +22,8 @@ const secondRecipe = {
 }
 
 
-it('Test price when adding ingredient', () => {
+
+it('Calculate price when adding recipe in recipe', () => {
 
     describe("Initially the first recipe's price is 23.6", () => {
         const fCost = getRecipePrice(firstRecipe);
@@ -40,3 +41,12 @@ it('Test price when adding ingredient', () => {
         expect(newCost).toEqual(fCost + sCost); 
     })
 });
+
+it("The recipe contain 2 ingredients", () => {
+    expect(firstRecipe.ingredients.length).toBe(2); 
+})
+
+it("The recipe contain a third ingredient", () => {
+    firstRecipe.ingredients.push({ id:3, name: "Miel",  cost: 7, allergenes: [], quantity: 20 })
+    expect(firstRecipe.ingredients.length).toEqual(3);
+})

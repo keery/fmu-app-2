@@ -4,6 +4,7 @@ docker-compose up -d --build
 URL: [http://localhost:3000/](http://localhost:3000/)
 
 # START APP WITHOUT DOCKER
+npm install / yarn install
 npm start / yarn start
 
 ## Features supplémentaires non réalisées

@@ -14,6 +14,12 @@ export const getRecipeById = (state, props) => {
 
 export const getRecipePrice = (recipe) => {
     const { ingredients, recipes } = recipe
+
+    // console.log(ingredients.length)
+    // for(let ingredient of ingredients) {
+    // // console.log(ingredient)
+        
+    // }
     let total = 0;
 
     if(ingredients.length > 0) {

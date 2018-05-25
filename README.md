@@ -3,6 +3,9 @@ docker-compose up -d --build
 
 URL: [http://localhost:3000/](http://localhost:3000/)
 
+# START APP WITHOUT DOCKER
+npm start / yarn start
+
 ## Features supplémentaires non réalisées
 
 **Vous permettez de saisir les quantités de recettes et d’ingrédients en d’autres unités que le gramme : la recette, le kilogramme, la portion...**

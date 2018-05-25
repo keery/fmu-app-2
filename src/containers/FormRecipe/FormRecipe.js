@@ -161,8 +161,18 @@ class formRecipe extends Component {
                     {
 
                         recipes && recipes.length > 0 &&
-                            recipes.map(({id, name, recipes, ingredients}) => (
-                                <RecipeItem name={name} ingredients={ingredients} recipes={recipes} key={id} />
+                            recipes.map(({id, name, recipes, ingredients, quantity}) => (
+                                <div className="row" key={id}>
+                                        <div className="col-xs-8">
+                                            <RecipeItem name={name} ingredients={ingredients} recipes={recipes} key={id} />
+                                        </div>
+                                        <div className="col-xs-4">
+                                            <div className="form-group">
+                                                <label>Quantité (g)</label>
+                                                <input type="text" name={'quantity_recipe_'+id} className="form-control" onChange={(event) => this.checkQuantity(event, id, 'recipes')} value={quantity} />
+                                            </div>
+                                        </div>
+                                    </div>
                             ))
                         
                     }

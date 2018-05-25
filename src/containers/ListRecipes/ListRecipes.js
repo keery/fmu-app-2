@@ -135,70 +135,75 @@ class listRecipes extends Component {
 
         return (
             <div>
-                <div>
-                    <form>
-                        <div className="row">
-                            <div className="col-xs-12">
-                                <div className="form-group">
-                                    <label>Nom de la recette</label>
-                                    <input type="text" name="name_recipe" className="form-control" value={value} onChange={this.handleSearch} />
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="form-group">
-                                    <label>Prix minimum en €</label>
-                                    <input type="number" name="min_price" min="0" max={max_price-1} className="form-control" value={min_price} onChange={ (event) => this.handlePrice(event, 'min_price') } />
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="form-group">
-                                    <label>Prix maximum en €</label>
-                                    <input type="number" name="max_price" min="0" max={max_price} className="form-control" value={max_price} onChange={ (event) => this.handlePrice(event, 'max_price') } />
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="form-group">
-                                    <label>Ingrédients</label>
-                                    {
-                                        ingredients && ingredients.length > 0 && (
-                                            ingredients.map(({ingredient, actif}) => (
-                                                <div key={ingredient.id} className="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" name="ingredients" value={ingredient.name} checked={actif} onChange={() => this.handleCheckIngredient(ingredient.id)} />
-                                                        {ingredient.name}
-                                                    </label>
-                                                </div>
-                                            ))
-                                        )
-                                    }
-                                    
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="form-group">
-                                    <label>Allergènes</label>
-                                    {
-                                        allergenes && allergenes.length > 0 && (
-                                            allergenes.map( (el, index) => (
-                                                <div key={el.allergene+"_"+index} className="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" name="allergene" value={el.allergene} checked={el.actif} onChange={() => this.handleCheckAllergene(el.allergene)} />
-                                                        {el.allergene}
-                                                    </label>
-                                                </div>
-                                            ))
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
                 {
                     result && result.length > 0 
-                    ? result.map(({id, name, ingredients, recipes}) => (
-                        <RecipeItem key={id} id={id} name={name} ingredients={ingredients} recipes={recipes} price={getRecipePrice({ingredients:ingredients, recipes: recipes})} />
-                    ))
+                    ? (
+                
+                    <div>
+                        <form>
+                            <div className="row">
+                                <div className="col-xs-12">
+                                    <div className="form-group">
+                                        <label>Nom de la recette</label>
+                                        <input type="text" name="name_recipe" className="form-control" value={value} onChange={this.handleSearch} />
+                                    </div>
+                                </div>
+                                <div className="col-xs-6">
+                                    <div className="form-group">
+                                        <label>Prix minimum en €</label>
+                                        <input type="number" name="min_price" min="0" max={max_price-1} className="form-control" value={min_price} onChange={ (event) => this.handlePrice(event, 'min_price') } />
+                                    </div>
+                                </div>
+                                <div className="col-xs-6">
+                                    <div className="form-group">
+                                        <label>Prix maximum en €</label>
+                                        <input type="number" name="max_price" min="0" max={max_price} className="form-control" value={max_price} onChange={ (event) => this.handlePrice(event, 'max_price') } />
+                                    </div>
+                                </div>
+                                <div className="col-xs-6">
+                                    <div className="form-group">
+                                        <label>Ingrédients</label>
+                                        {
+                                            ingredients && ingredients.length > 0 && (
+                                                ingredients.map(({ingredient, actif}) => (
+                                                    <div key={ingredient.id} className="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="ingredients" value={ingredient.name} checked={actif} onChange={() => this.handleCheckIngredient(ingredient.id)} />
+                                                            {ingredient.name}
+                                                        </label>
+                                                    </div>
+                                                ))
+                                            )
+                                        }
+                                        
+                                    </div>
+                                </div>
+                                <div className="col-xs-6">
+                                    <div className="form-group">
+                                        <label>Allergènes</label>
+                                        {
+                                            allergenes && allergenes.length > 0 && (
+                                                allergenes.map( (el, index) => (
+                                                    <div key={el.allergene+"_"+index} className="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="allergene" value={el.allergene} checked={el.actif} onChange={() => this.handleCheckAllergene(el.allergene)} />
+                                                            {el.allergene}
+                                                        </label>
+                                                    </div>
+                                                ))
+                                            )
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        {
+                            result.map(({id, name, ingredients, recipes}) => (
+                                        <RecipeItem key={id} id={id} name={name} ingredients={ingredients} recipes={recipes} price={getRecipePrice({ingredients:ingredients, recipes: recipes})} />
+                                    ))
+                        }
+                    </div>
+                    )
                     : <div className="alert alert-warning"><strong>Warning</strong> Il n'y a actuellement aucune recette, pensez à en ajouter <Link to="/add/recipe">ici</Link></div>
                 }
             </div>

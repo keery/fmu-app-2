@@ -144,7 +144,7 @@ class formRecipe extends Component {
                                 ingredients.map(({id, name, cost, allergenes, quantity}) => (
                                     <div className="row" key={id}>
                                         <div className="col-xs-8">
-                                            <IngredientItem name={name} cost={cost} allergenes={allergenes} />
+                                            <IngredientItem id={id} name={name} cost={cost} allergenes={allergenes} />
                                         </div>
                                         <div className="col-xs-4">
                                             <div className="form-group">
@@ -164,7 +164,7 @@ class formRecipe extends Component {
                             recipes.map(({id, name, recipes, ingredients, quantity}) => (
                                 <div className="row" key={id}>
                                         <div className="col-xs-8">
-                                            <RecipeItem name={name} ingredients={ingredients} recipes={recipes} key={id} />
+                                            <RecipeItem id={id} name={name} ingredients={ingredients} recipes={recipes} key={id} />
                                         </div>
                                         <div className="col-xs-4">
                                             <div className="form-group">
